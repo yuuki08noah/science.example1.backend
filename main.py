@@ -2,6 +2,7 @@ from typing import List
 
 import uvicorn
 from fastapi import FastAPI, Path, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 
 from model.HistoryDeleteRequest import HistoryDeleteRequest
 from service.isotope_service import get_history, get_isotopes, delete_history
@@ -12,6 +13,13 @@ from service.isotope_service import visualize_isotope_percentage_by_number, save
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # 실제 배포 시에는 프론트 주소로 제한하세요
+    allow_credentials=True,
+    allow_methods=["*"],  # GET, POST, DELETE, OPTIONS 등 모두 허용
+    allow_headers=["*"],
+)
 @app.get("/isotopes/{number}", response_model=IsotopeResponse)
 async def root(number: int = Path(...)):
     try:
@@ -37,10 +45,10 @@ async def histories():
     except Exception as e:
         print(e)
 
-@app.post("/histories")
-async def delete(history_delete_request: HistoryDeleteRequest):
+@app.delete("/histories/{id}")
+async def delete(id:int= Path(...)):
     try:
-        delete_history(history_delete_request)
+        delete_history(HistoryDeleteRequest(history_id=id))
     except HistoryNotFound:
         raise HTTPException(status_code=404, detail="History not found")
     except Exception as e:

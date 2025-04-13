@@ -10,7 +10,7 @@ def get_history_by_id(history_id):
     return cur.fetchone()
 
 def get_histories():
-    sql = "select * from history"
+    sql = "select * from history order by seen_at desc"
     cur.execute(sql)
     res = cur.fetchall()
     return res
