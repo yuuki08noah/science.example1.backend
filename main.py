@@ -15,7 +15,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # 실제 배포 시에는 프론트 주소로 제한하세요
+    allow_origins=["yuuki08noah.github.io/science.example1.frontend"],  # 실제 배포 시에는 프론트 주소로 제한하세요
     allow_credentials=True,
     allow_methods=["*"],  # GET, POST, DELETE, OPTIONS 등 모두 허용
     allow_headers=["*"],
