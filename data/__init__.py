@@ -1,6 +1,7 @@
 import pymysql
+import os
 
-conn = pymysql.connect(host="localhost", port=7777, user="root", password="1234",
+conn = pymysql.connect(host="localhost", port=7777, user="root", password=os.getenv("MYSQL_ROOT_PASSWORD"),
                         db='isotope', charset="utf8", cursorclass=pymysql.cursors.DictCursor)
 cur = conn.cursor()
 
